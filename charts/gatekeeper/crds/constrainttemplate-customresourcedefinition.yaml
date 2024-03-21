@@ -5,9 +5,9 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.10.0
   labels:
     gatekeeper.sh/system: "yes"
-  name: constrainttemplates.templates.gatekeeper.sh
+  name: constrainttemplates.templates.asafalg.sh
 spec:
-  group: templates.gatekeeper.sh
+  group: templates.asafalg.sh
   names:
     kind: ConstraintTemplate
     listKind: ConstraintTemplateList

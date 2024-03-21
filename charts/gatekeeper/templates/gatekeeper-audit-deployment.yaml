@@ -85,6 +85,10 @@ spec:
         {{- end }}
         - --disable-cert-rotation={{ or .Values.audit.disableCertRotation .Values.externalCertInjection.enabled }}
         - --external-data-provider-response-cache-ttl={{ .Values.externaldataProviderResponseCacheTTL }}
+        - --constraint-template-crd-name={{ .Values.crdNames.constraintTemplateCrdName }}
+        - --template-group-name={{ .Values.crdNames.templatesGroupName }}
+        - --constarints-group-name={{ .Values.crdNames.constarintsGroupName }}
+        - --status-group-name={{ .Values.crdNames.statusGroupName }}
         command:
         - /manager
         env:
@@ -106,6 +110,20 @@ spec:
           value: manager
         - name: OTEL_RESOURCE_ATTRIBUTES
           value: k8s.pod.name=$(POD_NAME),k8s.namespace.name=$(NAMESPACE),k8s.container.name=$(CONTAINER_NAME)
+        - name: TEMPLATE_GROUP_NAME
+          value: {{ .Values.crdNames.templatesGroupName }}
+        - name: CONSTRAINTS_GROUP_NAME
+          value: {{ .Values.crdNames.constarintsGroupName }}
+        - name: CONSTRAINT_TEMPLATE_GROUP_NAME
+          value: {{ .Values.crdNames.constraintTemplateCrdName }}
+        - name: STATUS_GROUP_NAME
+          value: {{ .Values.crdNames.statusGroupName }}
+        - name: MUTATIONS_GROUP_NAME
+          value: {{ .Values.crdNames.mutationsGroupName }}
+        - name: EXPANSION_GROUP_NAME
+          value: {{ .Values.crdNames.expansionGroupName }}
+        - name: EXTERNALDATA_GROUP_NAME
+          value: {{ .Values.crdNames.externalDataGroupName }}
         imagePullPolicy: '{{ .Values.image.pullPolicy }}'
         livenessProbe:
           httpGet:

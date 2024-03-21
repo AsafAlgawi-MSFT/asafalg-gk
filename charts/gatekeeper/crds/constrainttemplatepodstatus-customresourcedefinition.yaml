@@ -5,9 +5,9 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.10.0
   labels:
     gatekeeper.sh/system: "yes"
-  name: constrainttemplatepodstatuses.status.gatekeeper.sh
+  name: constrainttemplatepodstatuses.status.asafalg.sh
 spec:
-  group: status.gatekeeper.sh
+  group: status.asafalg.sh
   names:
     kind: ConstraintTemplatePodStatus
     listKind: ConstraintTemplatePodStatusList

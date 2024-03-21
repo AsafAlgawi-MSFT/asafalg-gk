@@ -31,10 +31,12 @@ import (
 
 	"github.com/go-logr/zapr"
 	"github.com/open-policy-agent/cert-controller/pkg/rotator"
+	externaldataapi "github.com/open-policy-agent/frameworks/constraint/pkg/apis/externaldata"
 	constraintclient "github.com/open-policy-agent/frameworks/constraint/pkg/client"
 	"github.com/open-policy-agent/frameworks/constraint/pkg/client/drivers/k8scel"
 	"github.com/open-policy-agent/frameworks/constraint/pkg/client/drivers/rego"
 	frameworksexternaldata "github.com/open-policy-agent/frameworks/constraint/pkg/externaldata"
+
 	api "github.com/open-policy-agent/gatekeeper/v3/apis"
 	configv1alpha1 "github.com/open-policy-agent/gatekeeper/v3/apis/config/v1alpha1"
 	expansionv1alpha1 "github.com/open-policy-agent/gatekeeper/v3/apis/expansion/v1alpha1"
@@ -47,6 +49,7 @@ import (
 	"github.com/open-policy-agent/gatekeeper/v3/pkg/controller"
 	"github.com/open-policy-agent/gatekeeper/v3/pkg/controller/config/process"
 	"github.com/open-policy-agent/gatekeeper/v3/pkg/controller/constraint"
+	"github.com/open-policy-agent/gatekeeper/v3/pkg/controller/constrainttemplate"
 	"github.com/open-policy-agent/gatekeeper/v3/pkg/expansion"
 	"github.com/open-policy-agent/gatekeeper/v3/pkg/externaldata"
 	"github.com/open-policy-agent/gatekeeper/v3/pkg/metrics"
@@ -134,6 +137,7 @@ func init() {
 	// +kubebuilder:scaffold:scheme
 	flag.Var(disabledBuiltins, "disable-opa-builtin", "disable opa built-in function, this flag can be declared more than once.")
 	flag.Var(&constraint.VapEnforcement, "vap-enforcement", "control VAP resource generation. Allowed values are NONE: do not generate, GATEKEEPER_DEFAULT: do not generate unless label gatekeeper.sh/use-vap: yes is added to policy explicitly, VAP_DEFAULT: generate unless label gatekeeper.sh/use-vap: no is added to policy explicitly.")
+	flag.String("constraint-template-crd-name", "constrainttemplates.templates.gatekeeper.sh", "Constraint template CRD name. defaults to: constrainttemplates.templates.gatekeeper.sh")
 }
 
 func main() {
@@ -213,6 +217,8 @@ func innerMain() int {
 	config := ctrl.GetConfigOrDie()
 	config.UserAgent = version.GetUserAgent("gatekeeper")
 	setupLog.Info("setting up manager", "user agent", config.UserAgent)
+	setupLog.Info("Constraint template name", "crd-name", constrainttemplate.ConstraintTemplateCrdName)
+	setupLog.Info("externaldata group name", "group", externaldataapi.ExternalDataGroupName)
 
 	var webhooks []rotator.WebhookInfo
 	webhooks = webhook.AppendValidationWebhookIfEnabled(webhooks)

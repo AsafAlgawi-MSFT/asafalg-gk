@@ -9,6 +9,7 @@ import (
 	constraintclient "github.com/open-policy-agent/frameworks/constraint/pkg/client"
 	"github.com/open-policy-agent/frameworks/constraint/pkg/client/drivers/k8scel"
 	"github.com/open-policy-agent/frameworks/constraint/pkg/client/drivers/rego"
+	statusv1beta1 "github.com/open-policy-agent/gatekeeper/v3/apis/status/v1beta1"
 	"github.com/open-policy-agent/gatekeeper/v3/pkg/expansion"
 	"github.com/open-policy-agent/gatekeeper/v3/pkg/gator/expand"
 	"github.com/open-policy-agent/gatekeeper/v3/pkg/gator/reader"
@@ -180,7 +181,7 @@ func isTemplate(u *unstructured.Unstructured) bool {
 
 func isConstraint(u *unstructured.Unstructured) bool {
 	gvk := u.GroupVersionKind()
-	return gvk.Group == "constraints.gatekeeper.sh"
+	return gvk.Group == statusv1beta1.ConstraintsGroup
 }
 
 func makeRegoDriver(tOpts Opts) (*rego.Driver, error) {

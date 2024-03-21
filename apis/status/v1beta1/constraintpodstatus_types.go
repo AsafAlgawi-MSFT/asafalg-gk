@@ -16,8 +16,10 @@ limitations under the License.
 package v1beta1
 
 import (
+	"flag"
 	"strings"
 
+	"github.com/open-policy-agent/gatekeeper/v3/apis/status"
 	"github.com/open-policy-agent/gatekeeper/v3/pkg/operations"
 	"github.com/open-policy-agent/gatekeeper/v3/pkg/util"
 	corev1 "k8s.io/api/core/v1"
@@ -29,7 +31,7 @@ import (
 )
 
 // ConstraintsGroup is the API Group for Gatekeeper Constraints.
-const ConstraintsGroup = "constraints.gatekeeper.sh"
+var ConstraintsGroup = status.ConstraintGroupName
 
 // ConstraintPodStatusStatus defines the observed state of ConstraintPodStatus.
 type ConstraintPodStatusStatus struct {
@@ -75,6 +77,7 @@ type ConstraintPodStatusList struct {
 
 func init() {
 	SchemeBuilder.Register(&ConstraintPodStatus{}, &ConstraintPodStatusList{})
+	flag.String("constarints-group-name", "constraints.gatekeeper.sh", "Constraints group name")
 }
 
 // NewConstraintStatusForPod returns a constraint status object

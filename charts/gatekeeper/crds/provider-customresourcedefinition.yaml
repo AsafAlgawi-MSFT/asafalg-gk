@@ -5,9 +5,9 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.10.0
   labels:
     gatekeeper.sh/system: "yes"
-  name: providers.externaldata.gatekeeper.sh
+  name: providers.externaldata.asafalg.sh
 spec:
-  group: externaldata.gatekeeper.sh
+  group: externaldata.asafalg.sh
   names:
     kind: Provider
     listKind: ProviderList

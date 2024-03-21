@@ -28,6 +28,7 @@ import (
 	"github.com/go-logr/logr"
 	"github.com/open-policy-agent/cert-controller/pkg/rotator"
 	externaldataUnversioned "github.com/open-policy-agent/frameworks/constraint/pkg/apis/externaldata/unversioned"
+	templatesapi "github.com/open-policy-agent/frameworks/constraint/pkg/apis/templates"
 	constraintclient "github.com/open-policy-agent/frameworks/constraint/pkg/client"
 	"github.com/open-policy-agent/frameworks/constraint/pkg/client/drivers"
 	"github.com/open-policy-agent/frameworks/constraint/pkg/core/templates"
@@ -36,6 +37,7 @@ import (
 	"github.com/open-policy-agent/gatekeeper/v3/apis"
 	expansionunversioned "github.com/open-policy-agent/gatekeeper/v3/apis/expansion/unversioned"
 	mutationsunversioned "github.com/open-policy-agent/gatekeeper/v3/apis/mutations/unversioned"
+	statusv1beta1 "github.com/open-policy-agent/gatekeeper/v3/apis/status/v1beta1"
 	"github.com/open-policy-agent/gatekeeper/v3/pkg/controller/config/process"
 	"github.com/open-policy-agent/gatekeeper/v3/pkg/expansion"
 	"github.com/open-policy-agent/gatekeeper/v3/pkg/keys"
@@ -347,11 +349,11 @@ func (h *validationHandler) validateGatekeeperResources(ctx context.Context, req
 
 	gvk := req.AdmissionRequest.Kind
 	switch {
-	case gvk.Group == "templates.gatekeeper.sh" && gvk.Kind == "ConstraintTemplate":
+	case gvk.Group == templatesapi.TemplateGroupName && gvk.Kind == "ConstraintTemplate":
 		return h.validateTemplate(ctx, req)
 	case gvk.Group == "expansion.gatekeeper.sh" && gvk.Kind == "ExpansionTemplate":
 		return h.validateExpansionTemplate(req)
-	case gvk.Group == "constraints.gatekeeper.sh":
+	case gvk.Group == statusv1beta1.ConstraintsGroup:
 		return h.validateConstraint(req)
 	case gvk.Group == "config.gatekeeper.sh" && gvk.Kind == "Config":
 		if err := h.validateConfigResource(req); err != nil {

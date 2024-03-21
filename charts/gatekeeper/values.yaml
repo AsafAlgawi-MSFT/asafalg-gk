@@ -7,7 +7,7 @@ constraintViolationsLimit: 20
 auditFromCache: false
 disableMutation: false
 disableValidatingWebhook: false
-validatingWebhookName: gatekeeper-validating-webhook-configuration
+validatingWebhookName: mdc-gatekeeper-validating-webhook-configuration
 validatingWebhookTimeoutSeconds: 3
 validatingWebhookFailurePolicy: Ignore
 validatingWebhookAnnotations: {}
@@ -17,11 +17,11 @@ validatingWebhookCheckIgnoreFailurePolicy: Fail
 validatingWebhookCustomRules: {}
 validatingWebhookURL: null
 enableDeleteOperations: false
-enableExternalData: true
+enableExternalData: false
 enableGeneratorResourceExpansion: true
 enableTLSHealthcheck: false
 maxServingThreads: -1
-mutatingWebhookName: gatekeeper-mutating-webhook-configuration
+mutatingWebhookName: mdc-gatekeeper-mutating-webhook-configuration
 mutatingWebhookFailurePolicy: Ignore
 mutatingWebhookReinvocationPolicy: Never
 mutatingWebhookAnnotations: {}
@@ -41,43 +41,48 @@ admissionEventsInvolvedNamespace: false
 auditEventsInvolvedNamespace: false
 resourceQuota: true
 externaldataProviderResponseCacheTTL: 3m
+managerRoleName: mdc-gatekeeper-manager-role
+roleBindingName: mdc-gatekeeper-manager-rolebinding
 image:
-  repository: openpolicyagent/gatekeeper
-  crdRepository: openpolicyagent/gatekeeper-crds
-  release: v3.16.0-beta.0
-  pullPolicy: IfNotPresent
+  repository: testacrasafalg.azurecr.io/gatekeeper-mdc-vanilla
+  crdRepository: testacrasafalg.azurecr.io/gatekeeper-crds-mdc
+  release: latest
+  pullPolicy: Always
   pullSecrets: []
 preInstall:
   crdRepository:
     image:
       repository: null
-      tag: v3.16.0-beta.0
+      tag: latest
 postUpgrade:
   labelNamespace:
     enabled: false
     image:
-      repository: openpolicyagent/gatekeeper-crds
-      tag: v3.16.0-beta.0
-      pullPolicy: IfNotPresent
+      repository: testacrasafalg.azurecr.io/gatekeeper-crds-mdc
+      tag: latest
+      pullPolicy: Always
       pullSecrets: []
     extraNamespaces: []
-    podSecurity: ["pod-security.kubernetes.io/audit=restricted",
-      "pod-security.kubernetes.io/audit-version=latest",
-      "pod-security.kubernetes.io/warn=restricted",
-      "pod-security.kubernetes.io/warn-version=latest",
-      "pod-security.kubernetes.io/enforce=restricted",
-      "pod-security.kubernetes.io/enforce-version=v1.24"]
+    podSecurity:
+      [
+        "pod-security.kubernetes.io/audit=restricted",
+        "pod-security.kubernetes.io/audit-version=latest",
+        "pod-security.kubernetes.io/warn=restricted",
+        "pod-security.kubernetes.io/warn-version=latest",
+        "pod-security.kubernetes.io/enforce=restricted",
+        "pod-security.kubernetes.io/enforce-version=v1.24",
+      ]
     extraAnnotations: {}
     priorityClassName: ""
   affinity: {}
   tolerations: []
-  nodeSelector: {kubernetes.io/os: linux}
+  nodeSelector: { kubernetes.io/os: linux }
   resources: {}
   securityContext:
     allowPrivilegeEscalation: false
     capabilities:
       drop:
-      - ALL
+        - ALL
     readOnlyRootFilesystem: true
     runAsGroup: 999
     runAsNonRoot: true
@@ -87,17 +92,20 @@ postInstall:
     enabled: true
     extraRules: []
     image:
-      repository: openpolicyagent/gatekeeper-crds
-      tag: v3.16.0-beta.0
-      pullPolicy: IfNotPresent
+      repository: testacrasafalg.azurecr.io/gatekeeper-crds-mdc
+      tag: latest
+      pullPolicy: Always
       pullSecrets: []
     extraNamespaces: []
-    podSecurity: ["pod-security.kubernetes.io/audit=restricted",
-      "pod-security.kubernetes.io/audit-version=latest",
-      "pod-security.kubernetes.io/warn=restricted",
-      "pod-security.kubernetes.io/warn-version=latest",
-      "pod-security.kubernetes.io/enforce=restricted",
-      "pod-security.kubernetes.io/enforce-version=v1.24"]
+    podSecurity:
+      [
+        "pod-security.kubernetes.io/audit=restricted",
+        "pod-security.kubernetes.io/audit-version=latest",
+        "pod-security.kubernetes.io/warn=restricted",
+        "pod-security.kubernetes.io/warn-version=latest",
+        "pod-security.kubernetes.io/enforce=restricted",
+        "pod-security.kubernetes.io/enforce-version=v1.24",
+      ]
     extraAnnotations: {}
     priorityClassName: ""
   probeWebhook:
@@ -105,7 +113,7 @@ postInstall:
     image:
       repository: curlimages/curl
       tag: 7.83.1
-      pullPolicy: IfNotPresent
+      pullPolicy: Always
       pullSecrets: []
     waitTimeout: 60
     httpTimeout: 2
@@ -113,12 +121,12 @@ postInstall:
     priorityClassName: ""
   affinity: {}
   tolerations: []
-  nodeSelector: {kubernetes.io/os: linux}
+  nodeSelector: { kubernetes.io/os: linux }
   securityContext:
     allowPrivilegeEscalation: false
     capabilities:
       drop:
-      - ALL
+        - ALL
     readOnlyRootFilesystem: true
     runAsGroup: 999
     runAsNonRoot: true
@@ -128,20 +136,20 @@ preUninstall:
     extraRules: []
     enabled: false
     image:
-      repository: openpolicyagent/gatekeeper-crds
-      tag: v3.16.0-beta.0
-      pullPolicy: IfNotPresent
+      repository: testacrasafalg.azurecr.io/gatekeeper-crds-mdc
+      tag: latest
+      pullPolicy: Always
       pullSecrets: []
     priorityClassName: ""
   affinity: {}
   tolerations: []
-  nodeSelector: {kubernetes.io/os: linux}
+  nodeSelector: { kubernetes.io/os: linux }
   resources: {}
   securityContext:
     allowPrivilegeEscalation: false
     capabilities:
       drop:
-      - ALL
+        - ALL
     readOnlyRootFilesystem: true
     runAsGroup: 999
     runAsNonRoot: true
@@ -181,7 +189,7 @@ controllerManager:
           weight: 100
   topologySpreadConstraints: []
   tolerations: []
-  nodeSelector: {kubernetes.io/os: linux}
+  nodeSelector: { kubernetes.io/os: linux }
   resources:
     limits:
       memory: 512Mi
@@ -192,7 +200,7 @@ controllerManager:
     allowPrivilegeEscalation: false
     capabilities:
       drop:
-      - ALL
+        - ALL
     readOnlyRootFilesystem: true
     runAsGroup: 999
     runAsNonRoot: true
@@ -204,7 +212,8 @@ controllerManager:
   extraRules: []
   networkPolicy:
     enabled: false
-    ingress: { }
+    ingress:
+      {}
       # - from:
       #   - ipBlock:
       #       cidr: 0.0.0.0/0
@@ -222,7 +231,7 @@ audit:
   disableCertRotation: false
   affinity: {}
   tolerations: []
-  nodeSelector: {kubernetes.io/os: linux}
+  nodeSelector: { kubernetes.io/os: linux }
   resources:
     limits:
       memory: 512Mi
@@ -233,7 +242,7 @@ audit:
     allowPrivilegeEscalation: false
     capabilities:
       drop:
-      - ALL
+        - ALL
     readOnlyRootFilesystem: true
     runAsGroup: 999
     runAsNonRoot: true
@@ -247,13 +256,13 @@ audit:
 crds:
   affinity: {}
   tolerations: []
-  nodeSelector: {kubernetes.io/os: linux}
+  nodeSelector: { kubernetes.io/os: linux }
   resources: {}
   securityContext:
     allowPrivilegeEscalation: false
     capabilities:
       drop:
-      - ALL
+        - ALL
     readOnlyRootFilesystem: true
     runAsGroup: 65532
     runAsNonRoot: true
@@ -266,7 +275,7 @@ disabledBuiltins: ["{http.send}"]
 psp:
   enabled: false
 upgradeCRDs:
-  enabled: true
+  enabled: false
   extraRules: []
   priorityClassName: ""
 rbac:
@@ -274,3 +283,12 @@ rbac:
 externalCertInjection:
   enabled: false
   secretName: gatekeeper-webhook-server-cert
+crdNames:
+  constraintTemplateCrdName: "constrainttemplates.templates.asafalg.sh"
+  constarintsGroupName: "constraints.asafalg.sh"
+  templatesGroupName: "templates.asafalg.sh"
+  statusGroupName: "status.asafalg.sh"
+  mutationsGroupName: "mutations.asafalg.sh"
+  configGroupName: "config.asafalg.sh"
+  expansionGroupName: "expansion.asafalg.sh"
+  externalDataGroupName: "externaldata.asafalg.sh"

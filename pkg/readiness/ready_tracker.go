@@ -29,6 +29,7 @@ import (
 	expansionv1alpha1 "github.com/open-policy-agent/gatekeeper/v3/apis/expansion/v1alpha1"
 	mutationv1 "github.com/open-policy-agent/gatekeeper/v3/apis/mutations/v1"
 	mutationsv1alpha1 "github.com/open-policy-agent/gatekeeper/v3/apis/mutations/v1alpha1"
+	statusv1beta1 "github.com/open-policy-agent/gatekeeper/v3/apis/status/v1beta1"
 	syncsetv1alpha1 "github.com/open-policy-agent/gatekeeper/v3/apis/syncset/v1alpha1"
 	"github.com/open-policy-agent/gatekeeper/v3/pkg/keys"
 	"github.com/open-policy-agent/gatekeeper/v3/pkg/logging"
@@ -45,10 +46,10 @@ import (
 )
 
 var log = logf.Log.WithName("readiness-tracker")
+var constraintGroup = statusv1beta1.ConstraintsGroup
 
 const (
-	constraintGroup = "constraints.gatekeeper.sh"
-	statsPeriod     = 1 * time.Second
+	statsPeriod = 1 * time.Second
 )
 
 // Lister lists resources from a cache.

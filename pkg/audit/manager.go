@@ -17,7 +17,9 @@ import (
 	"github.com/go-logr/logr"
 	constraintclient "github.com/open-policy-agent/frameworks/constraint/pkg/client"
 	"github.com/open-policy-agent/frameworks/constraint/pkg/client/drivers"
+	"github.com/open-policy-agent/gatekeeper/v3/apis/status/v1beta1"
 	"github.com/open-policy-agent/gatekeeper/v3/pkg/controller/config/process"
+	"github.com/open-policy-agent/gatekeeper/v3/pkg/controller/constrainttemplate"
 	pubsubController "github.com/open-policy-agent/gatekeeper/v3/pkg/controller/pubsub"
 	"github.com/open-policy-agent/gatekeeper/v3/pkg/expansion"
 	"github.com/open-policy-agent/gatekeeper/v3/pkg/logging"
@@ -47,8 +49,6 @@ import (
 var log = logf.Log.WithName("controller").WithValues(logging.Process, "audit")
 
 const (
-	crdName                          = "constrainttemplates.templates.gatekeeper.sh"
-	constraintsGV                    = "constraints.gatekeeper.sh/v1beta1"
 	msgSize                          = 256
 	defaultAuditInterval             = 60
 	defaultConstraintViolationsLimit = 20
@@ -56,6 +56,10 @@ const (
 	defaultAPICacheDir               = "/tmp/audit"
 	defaultConnection                = "audit-connection"
 	defaultChannel                   = "audit-channel"
+)
+
+var (
+	constraintsGV = v1beta1.ConstraintsGroup + "/v1beta1"
 )
 
 var (
@@ -252,7 +256,7 @@ func (am *Manager) audit(ctx context.Context) error {
 	am.client = c
 	// don't audit anything until the constraintTemplate crd is in the cluster
 	if err := am.ensureCRDExists(ctx); err != nil {
-		am.log.Info("Audit exits, required crd has not been deployed ", "CRD", crdName)
+		am.log.Info("Audit exits, required crd has not been deployed ", "CRD", constrainttemplate.ConstraintTemplateCrdName)
 		return nil
 	}
 
@@ -776,7 +780,8 @@ func (am *Manager) Start(ctx context.Context) error {
 
 func (am *Manager) ensureCRDExists(ctx context.Context) error {
 	crd := &apiextensionsv1.CustomResourceDefinition{}
-	return am.client.Get(ctx, types.NamespacedName{Name: crdName}, crd)
+	log.Info("Ensuring CRD exists", "crd", constrainttemplate.ConstraintTemplateCrdName)
+	return am.client.Get(ctx, types.NamespacedName{Name: constrainttemplate.ConstraintTemplateCrdName}, crd)
 }
 
 func (am *Manager) getAllConstraintKinds() ([]schema.GroupVersionKind, error) {
@@ -785,6 +790,7 @@ func (am *Manager) getAllConstraintKinds() ([]schema.GroupVersionKind, error) {
 		return nil, err
 	}
 	l, err := discoveryClient.ServerResourcesForGroupVersion(constraintsGV)
+	log.Info("Getting all constraints", "gv", constraintsGV)
 	if err != nil {
 		return nil, err
 	}

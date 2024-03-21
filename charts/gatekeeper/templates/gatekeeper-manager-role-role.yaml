@@ -9,7 +9,7 @@ metadata:
     gatekeeper.sh/system: "yes"
     heritage: '{{ .Release.Service }}'
     release: '{{ .Release.Name }}'
-  name: gatekeeper-manager-role
+  name: {{ .Values.managerRoleName }}
   namespace: '{{ .Release.Namespace }}'
 rules:
 - apiGroups:

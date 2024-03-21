@@ -5,9 +5,9 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.10.0
   labels:
     gatekeeper.sh/system: "yes"
-  name: expansiontemplate.expansion.gatekeeper.sh
+  name: expansiontemplate.expansion.asafalg.sh
 spec:
-  group: expansion.gatekeeper.sh
+  group: expansion.asafalg.sh
   names:
     kind: ExpansionTemplate
     listKind: ExpansionTemplateList

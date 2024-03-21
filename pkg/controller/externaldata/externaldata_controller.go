@@ -26,9 +26,9 @@ import (
 )
 
 var (
-	log = logf.Log.WithName("controller").WithValues(logging.Process, "externaldata_controller")
-
-	gvkExternalData = schema.GroupVersionKind{
+	log                   = logf.Log.WithName("controller").WithValues(logging.Process, "externaldata_controller")
+	ExternalDataGroupName = "externaldata.gatekeeper.sh"
+	gvkExternalData       = schema.GroupVersionKind{
 		Group:   "externaldata.gatekeeper.sh",
 		Version: "v1beta1",
 		Kind:    "Provider",
