@@ -24,6 +24,7 @@ limitations under the License.
 package v1beta1
 
 import (
+	"github.com/open-policy-agent/frameworks/constraint/pkg/apis/externaldata"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/scheme"
@@ -31,7 +32,7 @@ import (
 
 var (
 	// SchemeGroupVersion is group version used to register these objects.
-	SchemeGroupVersion = schema.GroupVersion{Group: "externaldata.gatekeeper.sh", Version: "v1beta1"}
+	SchemeGroupVersion = schema.GroupVersion{Group: externaldata.ExternalDataGroupName, Version: "v1beta1"}
 
 	// SchemeBuilder is used to add go types to the GroupVersionKind scheme.
 	SchemeBuilder = &scheme.Builder{GroupVersion: SchemeGroupVersion}

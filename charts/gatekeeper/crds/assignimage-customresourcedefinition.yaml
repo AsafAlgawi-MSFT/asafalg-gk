@@ -5,9 +5,9 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.10.0
   labels:
     gatekeeper.sh/system: "yes"
-  name: assignimage.mutations.gatekeeper.sh
+  name: assignimage.mutations.asafalg-gatekeeper.sh
 spec:
-  group: mutations.gatekeeper.sh
+  group: mutations.asafalg-gatekeeper.sh
   names:
     kind: AssignImage
     listKind: AssignImageList

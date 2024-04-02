@@ -39,7 +39,7 @@ func TestNewConstraintStatusForPod(t *testing.T) {
 	)
 
 	cstr := &unstructured.Unstructured{}
-	cstr.SetGroupVersionKind(schema.GroupVersionKind{Group: v1beta1.ConstraintsGroup, Version: "v1beta1", Kind: cstrKind})
+	cstr.SetGroupVersionKind(schema.GroupVersionKind{Group: v1beta1.ConstraintsGroupName, Version: "v1beta1", Kind: cstrKind})
 	cstr.SetName(cstrName)
 
 	wantStatus := &v1beta1.ConstraintPodStatus{}

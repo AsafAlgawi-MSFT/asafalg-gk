@@ -8,12 +8,12 @@ metadata:
     gatekeeper.sh/system: "yes"
     heritage: '{{ .Release.Service }}'
     release: '{{ .Release.Name }}'
-  name: gatekeeper-manager-rolebinding
+  name: {{ .Values.roleBindingName }}
   namespace: '{{ .Release.Namespace }}'
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: gatekeeper-manager-role
+  name: {{ .Values.managerRoleName }}
 subjects:
 - kind: ServiceAccount
   name: gatekeeper-admin

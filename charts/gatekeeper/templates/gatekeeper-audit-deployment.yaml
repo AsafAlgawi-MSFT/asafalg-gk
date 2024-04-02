@@ -106,6 +106,8 @@ spec:
           value: manager
         - name: OTEL_RESOURCE_ATTRIBUTES
           value: k8s.pod.name=$(POD_NAME),k8s.namespace.name=$(NAMESPACE),k8s.container.name=$(CONTAINER_NAME)
+        - name: GATEKEEPER_API_NAME_DISAMBIGUATOR
+          value: asafalg
         imagePullPolicy: '{{ .Values.image.pullPolicy }}'
         livenessProbe:
           httpGet:

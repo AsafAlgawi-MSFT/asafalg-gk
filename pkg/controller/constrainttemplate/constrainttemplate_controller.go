@@ -19,6 +19,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"os"
 	"reflect"
 	"time"
 
@@ -81,9 +82,21 @@ type Adder struct {
 	GetPod           func(context.Context) (*corev1.Pod, error)
 }
 
+var ConstraintTemplateCrdName string = getGroupFromEnvVars()
+
+func getGroupFromEnvVars() string {
+	value, exists := os.LookupEnv("CONSTRAINT_TEMPLATE_GROUP_NAME")
+	if exists {
+		return value
+	}
+
+	return "constrainttemplates.templates.gatekeeper.sh"
+}
+
 // Add creates a new ConstraintTemplate Controller and adds it to the Manager with default RBAC. The Manager will set fields on the Controller
 // and Start it when the Manager is Started.
 func (a *Adder) Add(mgr manager.Manager) error {
+	logger.Info("Adding manager for constraint template.", ConstraintTemplateCrdName)
 	if !operations.HasValidationOperations() {
 		return nil
 	}
@@ -746,8 +759,9 @@ func logError(name string) {
 }
 
 func makeGvk(kind string) schema.GroupVersionKind {
+	logger.Info("Making GVK for constraint group", "constraint-gropup", statusv1beta1.ConstraintsGroupName)
 	return schema.GroupVersionKind{
-		Group:   "constraints.gatekeeper.sh",
+		Group:   statusv1beta1.ConstraintsGroupName,
 		Version: "v1beta1",
 		Kind:    kind,
 	}

@@ -5,9 +5,9 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.10.0
   labels:
     gatekeeper.sh/system: "yes"
-  name: configs.config.gatekeeper.sh
+  name: configs.config.asafalg-gatekeeper.sh
 spec:
-  group: config.gatekeeper.sh
+  group: config.asafalg-gatekeeper.sh
   names:
     kind: Config
     listKind: ConfigList

@@ -107,7 +107,7 @@ func PodStatusToConstraintMapper(selfOnly bool, packerMap handler.MapFunc) handl
 			}
 		}
 		u := &unstructured.Unstructured{}
-		u.SetGroupVersionKind(schema.GroupVersionKind{Group: v1beta1.ConstraintsGroup, Version: "v1beta1", Kind: kind})
+		u.SetGroupVersionKind(schema.GroupVersionKind{Group: v1beta1.ConstraintsGroupName, Version: "v1beta1", Kind: kind})
 		u.SetName(name)
 		return packerMap(ctx, u)
 	}
@@ -177,7 +177,7 @@ func (r *ReconcileConstraintStatus) Reconcile(ctx context.Context, request recon
 	}
 
 	// Sanity - make sure it is a constraint resource.
-	if gvk.Group != v1beta1.ConstraintsGroup {
+	if gvk.Group != v1beta1.ConstraintsGroupName {
 		// Unrecoverable, do not retry.
 		log.Error(err, "invalid constraint GroupVersion", "gvk", gvk)
 		return reconcile.Result{}, nil

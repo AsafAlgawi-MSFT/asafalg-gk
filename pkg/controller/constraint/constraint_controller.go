@@ -270,7 +270,7 @@ func (r *ReconcileConstraint) Reconcile(ctx context.Context, request reconcile.R
 	}
 
 	// Sanity - make sure it is a constraint resource.
-	if gvk.Group != constraintstatusv1beta1.ConstraintsGroup {
+	if gvk.Group != constraintstatusv1beta1.ConstraintsGroupName {
 		// Unrecoverable, do not retry.
 		log.Error(err, "invalid constraint GroupVersion", "gvk", gvk)
 		return reconcile.Result{}, nil

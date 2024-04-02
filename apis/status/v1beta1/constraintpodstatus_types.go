@@ -18,6 +18,7 @@ package v1beta1
 import (
 	"strings"
 
+	"github.com/open-policy-agent/gatekeeper/v3/apis/status"
 	"github.com/open-policy-agent/gatekeeper/v3/pkg/operations"
 	"github.com/open-policy-agent/gatekeeper/v3/pkg/util"
 	corev1 "k8s.io/api/core/v1"
@@ -28,8 +29,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 )
 
-// ConstraintsGroup is the API Group for Gatekeeper Constraints.
-const ConstraintsGroup = "constraints.gatekeeper.sh"
+// ConstraintsGroupName is the API Group for Gatekeeper Constraints.
+var ConstraintsGroupName = status.ConstraintsGroupName
 
 // ConstraintPodStatusStatus defines the observed state of ConstraintPodStatus.
 type ConstraintPodStatusStatus struct {

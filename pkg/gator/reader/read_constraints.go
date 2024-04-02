@@ -10,6 +10,7 @@ import (
 
 	templatesv1 "github.com/open-policy-agent/frameworks/constraint/pkg/apis/templates/v1"
 	"github.com/open-policy-agent/frameworks/constraint/pkg/core/templates"
+	"github.com/open-policy-agent/gatekeeper/v3/apis/status/v1beta1"
 	"github.com/open-policy-agent/gatekeeper/v3/pkg/gator"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -170,7 +171,7 @@ func ReadConstraint(f fs.FS, path string) (*unstructured.Unstructured, error) {
 	}
 
 	gvk := u.GroupVersionKind()
-	if gvk.Group != "constraints.gatekeeper.sh" {
+	if gvk.Group != v1beta1.ConstraintsGroupName {
 		return nil, gator.ErrNotAConstraint
 	}
 

@@ -9,7 +9,7 @@ metadata:
     gatekeeper.sh/system: "yes"
     heritage: '{{ .Release.Service }}'
     release: '{{ .Release.Name }}'
-  name: gatekeeper-manager-role
+  name: {{ .Values.managerRoleName }}
 rules:
 - apiGroups:
   - ""
@@ -71,7 +71,7 @@ rules:
   - patch
   - update
 - apiGroups:
-  - constraints.gatekeeper.sh
+  - {{ empty .Values.disambiguator | ternary "constraints.gatekeeper.sh" (printf "constraints.%s-gatekeeper.sh" .Values.disambiguator) }}
   resources:
   - '*'
   verbs:
@@ -83,7 +83,7 @@ rules:
   - update
   - watch
 - apiGroups:
-  - expansion.gatekeeper.sh
+  - {{ empty .Values.disambiguator | ternary "expansion.gatekeeper.sh" (printf "expansion.%s-gatekeeper.sh" .Values.disambiguator) }}
   resources:
   - '*'
   verbs:
@@ -95,7 +95,7 @@ rules:
   - update
   - watch
 - apiGroups:
-  - externaldata.gatekeeper.sh
+  - {{ empty .Values.disambiguator | ternary "externaldata.gatekeeper.sh" (printf "externaldata.%s-gatekeeper.sh" .Values.disambiguator) }}
   resources:
   - providers
   verbs:
@@ -107,7 +107,7 @@ rules:
   - update
   - watch
 - apiGroups:
-  - mutations.gatekeeper.sh
+  - {{ empty .Values.disambiguator | ternary "mutations.gatekeeper.sh" (printf "mutations.%s-gatekeeper.sh" .Values.disambiguator) }}
   resources:
   - '*'
   verbs:
@@ -129,7 +129,7 @@ rules:
   - use
 {{- end }}
 - apiGroups:
-  - status.gatekeeper.sh
+  - {{ empty .Values.disambiguator | ternary "status.gatekeeper.sh" (printf "status.%s-gatekeeper.sh" .Values.disambiguator) }}
   resources:
   - '*'
   verbs:
@@ -141,7 +141,7 @@ rules:
   - update
   - watch
 - apiGroups:
-  - templates.gatekeeper.sh
+  - {{ empty .Values.disambiguator | ternary "templates.gatekeeper.sh" (printf "templates.%s-gatekeeper.sh" .Values.disambiguator) }}
   resources:
   - constrainttemplates
   verbs:
@@ -153,7 +153,7 @@ rules:
   - update
   - watch
 - apiGroups:
-  - templates.gatekeeper.sh
+  - {{ empty .Values.disambiguator | ternary "templates.gatekeeper.sh" (printf "templates.%s-gatekeeper.sh" .Values.disambiguator) }}
   resources:
   - constrainttemplates/finalizers
   verbs:
@@ -162,7 +162,7 @@ rules:
   - patch
   - update
 - apiGroups:
-  - templates.gatekeeper.sh
+  - {{ empty .Values.disambiguator | ternary "templates.gatekeeper.sh" (printf "templates.%s-gatekeeper.sh" .Values.disambiguator) }}
   resources:
   - constrainttemplates/status
   verbs:

@@ -18,6 +18,7 @@ package v1beta1
 import (
 	"strings"
 
+	"github.com/open-policy-agent/gatekeeper/v3/apis/mutations"
 	mtypes "github.com/open-policy-agent/gatekeeper/v3/pkg/mutation/types"
 	"github.com/open-policy-agent/gatekeeper/v3/pkg/operations"
 	"github.com/open-policy-agent/gatekeeper/v3/pkg/util"
@@ -29,7 +30,7 @@ import (
 )
 
 // MutationsGroup is the API Group for Gatekeeper Mutators.
-const MutationsGroup = "mutations.gatekeeper.sh"
+var MutationsGroup = mutations.MutationGroupName
 
 // MutatorPodStatusStatus defines the observed state of MutatorPodStatus.
 type MutatorPodStatusStatus struct {

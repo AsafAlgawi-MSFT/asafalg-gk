@@ -741,7 +741,7 @@ violation[{"msg": "denied!"}] {
 	t.Cleanup(testutils.DeleteObject(t, c, instance))
 
 	gvk := schema.GroupVersionKind{
-		Group:   "constraints.gatekeeper.sh",
+		Group:   statusv1beta1.ConstraintsGroupName,
 		Version: "v1beta1",
 		Kind:    DenyAll,
 	}

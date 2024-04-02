@@ -152,6 +152,7 @@ func (r *ReconcileConstraintStatus) Reconcile(ctx context.Context, request recon
 	}
 	template := &unstructured.Unstructured{}
 	gv := constrainttemplatev1beta1.SchemeGroupVersion
+	r.log.Info("reconcile gv", "gv", gv.Group)
 	template.SetGroupVersionKind(gv.WithKind("ConstraintTemplate"))
 	if err := r.reader.Get(ctx, request.NamespacedName, template); err != nil {
 		// If the template does not exist, we are done

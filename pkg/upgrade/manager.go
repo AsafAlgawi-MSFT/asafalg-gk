@@ -8,6 +8,11 @@ import (
 	"strings"
 	"time"
 
+	"github.com/open-policy-agent/frameworks/constraint/pkg/apis/templates"
+	"github.com/open-policy-agent/gatekeeper/v3/apis/mutations"
+	"github.com/open-policy-agent/gatekeeper/v3/apis/status"
+	"github.com/open-policy-agent/gatekeeper/v3/pkg/controller/constrainttemplate"
+	"github.com/open-policy-agent/gatekeeper/v3/pkg/controller/externaldata"
 	"github.com/open-policy-agent/gatekeeper/v3/pkg/util"
 	apiextensionsv1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
@@ -24,8 +29,12 @@ import (
 
 var log = logf.Log.WithName("controller").WithValues("metaKind", "upgrade")
 
-const (
-	crdName = "constrainttemplates.templates.gatekeeper.sh"
+var (
+	crdName               = &constrainttemplate.ConstraintTemplateCrdName
+	constraintGvV1Alpha   = status.ConstraintsGroupName + "/v1alpha"
+	templateGvV1Alpha     = templates.TemplateGroupName + "/v1alpha"
+	mutationsGvV1Alpha    = mutations.MutationGroupName + "/v1alpha"
+	externaldataGvV1Alpha = externaldata.ExternalDataGroupName + "v1alpha"
 )
 
 // Manager allows us to upgrade resources on startup.
@@ -63,7 +72,7 @@ func (um *Manager) Start(ctx context.Context) error {
 
 func (um *Manager) ensureCRDExists(ctx context.Context) error {
 	crd := &apiextensionsv1.CustomResourceDefinition{}
-	return um.client.Get(ctx, types.NamespacedName{Name: crdName}, crd)
+	return um.client.Get(ctx, types.NamespacedName{Name: *crdName}, crd)
 }
 
 func (um *Manager) getAllKinds(groupVersion string) (*metav1.APIResourceList, error) {
@@ -76,10 +85,10 @@ func (um *Manager) getAllKinds(groupVersion string) (*metav1.APIResourceList, er
 
 func (um *Manager) upgrade(ctx context.Context) error {
 	gvs := []string{
-		"constraints.gatekeeper.sh/v1alpha1",
-		"templates.gatekeeper.sh/v1alpha1",
-		"mutations.gatekeeper.sh/v1alpha1",
-		"externaldata.gatekeeper.sh/v1alpha1",
+		constraintGvV1Alpha,
+		templateGvV1Alpha,
+		mutationsGvV1Alpha,
+		externaldataGvV1Alpha,
 	}
 	for _, gv := range gvs {
 		if err := um.upgradeGroupVersion(ctx, gv); err != nil {
@@ -98,7 +107,7 @@ func (um *Manager) upgradeGroupVersion(ctx context.Context, groupVersion string)
 	}
 	um.client = c
 	if err := um.ensureCRDExists(ctx); err != nil {
-		log.Info("required crd has not been deployed ", "CRD", crdName)
+		log.Info("required crd has not been deployed ", "CRD", *crdName)
 		return err
 	}
 	// get all resource kinds

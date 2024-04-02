@@ -8,9 +8,13 @@ import (
 	"fmt"
 	"strings"
 
+	templates "github.com/open-policy-agent/frameworks/constraint/pkg/apis/templates"
 	"github.com/open-policy-agent/gatekeeper/v3/apis"
 	"github.com/open-policy-agent/gatekeeper/v3/apis/config/v1alpha1"
+	"github.com/open-policy-agent/gatekeeper/v3/apis/mutations"
+	"github.com/open-policy-agent/gatekeeper/v3/apis/status/v1beta1"
 	"github.com/open-policy-agent/gatekeeper/v3/pkg/controller/config/process"
+	externalData "github.com/open-policy-agent/gatekeeper/v3/pkg/controller/externaldata"
 	"github.com/open-policy-agent/gatekeeper/v3/pkg/keys"
 	"github.com/open-policy-agent/gatekeeper/v3/pkg/util"
 	admissionv1 "k8s.io/api/admission/v1"
@@ -39,9 +43,12 @@ var log = logf.Log.WithName("webhook")
 
 const (
 	serviceAccountName = "gatekeeper-admin"
-	mutationsGroup     = "mutations.gatekeeper.sh"
-	externalDataGroup  = "externaldata.gatekeeper.sh"
 	namespaceKind      = "Namespace"
+)
+
+var (
+	mutationsGroup    = mutations.MutationGroupName
+	externalDataGroup = externalData.ExternalDataGroupName
 )
 
 var (
@@ -112,8 +119,8 @@ func (h *webhookHandler) getConfig(ctx context.Context) (*v1alpha1.Config, error
 
 // isGatekeeperResource returns true if the request relates to a gatekeeper resource.
 func (h *webhookHandler) isGatekeeperResource(req *admission.Request) bool {
-	if req.AdmissionRequest.Kind.Group == "templates.gatekeeper.sh" ||
-		req.AdmissionRequest.Kind.Group == "constraints.gatekeeper.sh" ||
+	if req.AdmissionRequest.Kind.Group == templates.TemplateGroupName ||
+		req.AdmissionRequest.Kind.Group == v1beta1.ConstraintsGroupName ||
 		req.AdmissionRequest.Kind.Group == mutationsGroup ||
 		req.AdmissionRequest.Kind.Group == "config.gatekeeper.sh" ||
 		req.AdmissionRequest.Kind.Group == externalDataGroup ||

@@ -5,9 +5,9 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.10.0
   labels:
     gatekeeper.sh/system: "yes"
-  name: syncsets.syncset.gatekeeper.sh
+  name: syncsets.syncset.asafalg-gatekeeper.sh
 spec:
-  group: syncset.gatekeeper.sh
+  group: syncset.asafalg-gatekeeper.sh
   names:
     kind: SyncSet
     listKind: SyncSetList

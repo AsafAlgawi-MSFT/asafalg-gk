@@ -33,8 +33,7 @@ webhooks:
     - key: kubernetes.io/metadata.name
       operator: NotIn
       values:
-      - {{ .Release.Namespace }}
-    
+      - {{ .Release.Namespace }}    
     {{- range $key, $value := .Values.mutatingWebhookExemptNamespacesLabels}}
     - key: {{ $key }}
       operator: NotIn

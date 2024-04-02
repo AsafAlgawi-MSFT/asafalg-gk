@@ -4,13 +4,11 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/open-policy-agent/gatekeeper/v3/apis/status/v1beta1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 )
 
 const (
-	// Group is the API Group of Constraints.
-	Group = "constraints.gatekeeper.sh"
-
 	// EnforcementActionDeny indicates that if a review fails validation for a
 	// Constraint, that it should be rejected. Errors encountered running
 	// validation are treated as failing validation.
@@ -20,6 +18,9 @@ const (
 )
 
 var (
+	// Group is the API Group of Constraints.
+	Group = v1beta1.ConstraintsGroupName
+
 	// ErrInvalidConstraint is a generic error that a Constraint is invalid for
 	// some reason.
 	ErrInvalidConstraint = errors.New("invalid Constraint")

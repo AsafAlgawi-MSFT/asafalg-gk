@@ -113,9 +113,9 @@ func (e *NoKindMatchError) Error() string {
 	case 0:
 		return fmt.Sprintf("no matches for kind %q in group %q", e.GroupKind.Kind, e.GroupKind.Group)
 	case 1:
-		return fmt.Sprintf("no matches for kind %q in version %q", e.GroupKind.Kind, searchedVersions.List()[0])
+		return fmt.Sprintf("no matches for kind %q in version %q and group %q", e.GroupKind.Kind, searchedVersions.List()[0], e.GroupKind.Group)
 	default:
-		return fmt.Sprintf("no matches for kind %q in versions %q", e.GroupKind.Kind, searchedVersions.List())
+		return fmt.Sprintf("no matches for kind %q in versions %q  and group %q", e.GroupKind.Kind, searchedVersions.List(), e.GroupKind.Group)
 	}
 }
 
