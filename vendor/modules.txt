@@ -418,9 +418,11 @@ github.com/open-policy-agent/cert-controller/pkg/rotator
 github.com/open-policy-agent/frameworks/constraint/deploy
 github.com/open-policy-agent/frameworks/constraint/pkg/apis
 github.com/open-policy-agent/frameworks/constraint/pkg/apis/constraints
+github.com/open-policy-agent/frameworks/constraint/pkg/apis/externaldata
 github.com/open-policy-agent/frameworks/constraint/pkg/apis/externaldata/unversioned
 github.com/open-policy-agent/frameworks/constraint/pkg/apis/externaldata/v1alpha1
 github.com/open-policy-agent/frameworks/constraint/pkg/apis/externaldata/v1beta1
+github.com/open-policy-agent/frameworks/constraint/pkg/apis/templates
 github.com/open-policy-agent/frameworks/constraint/pkg/apis/templates/v1
 github.com/open-policy-agent/frameworks/constraint/pkg/apis/templates/v1alpha1
 github.com/open-policy-agent/frameworks/constraint/pkg/apis/templates/v1beta1
@@ -858,7 +860,7 @@ google.golang.org/genproto/googleapis/api/monitoredres
 google.golang.org/genproto/googleapis/rpc/code
 google.golang.org/genproto/googleapis/rpc/errdetails
 google.golang.org/genproto/googleapis/rpc/status
-# google.golang.org/grpc v1.61.0
+# google.golang.org/grpc v1.61.2
 ## explicit; go 1.19
 google.golang.org/grpc
 google.golang.org/grpc/attributes
