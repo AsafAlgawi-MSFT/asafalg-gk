@@ -13,7 +13,6 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/open-policy-agent/frameworks/constraint/pkg/apis/externaldata"
 	"github.com/open-policy-agent/frameworks/constraint/pkg/apis/externaldata/unversioned"
 )
 
@@ -49,7 +48,7 @@ type Request struct {
 // NewProviderRequest creates a new request for the external data provider.
 func NewProviderRequest(keys []string) *ProviderRequest {
 	return &ProviderRequest{
-		APIVersion: externaldata.ExternalDataGroupName + "/v1beta1",
+		APIVersion: "externaldata.gatekeeper.sh/v1beta1",
 		Kind:       "ProviderRequest",
 		Request: Request{
 			Keys: keys,
