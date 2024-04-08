@@ -4,17 +4,15 @@ import (
 	"net/http"
 	"time"
 
-	externaldataapis "github.com/open-policy-agent/frameworks/constraint/pkg/apis/externaldata"
 	"github.com/open-policy-agent/frameworks/constraint/pkg/externaldata"
 	"github.com/open-policy-agent/opa/ast"
 	"github.com/open-policy-agent/opa/rego"
 )
 
 const (
-	providerResponseKind = "ProviderResponse"
+	providerResponseAPIVersion = "externaldata.gatekeeper.sh/v1beta1"
+	providerResponseKind       = "ProviderResponse"
 )
-
-var providerResponseAPIVersion = externaldataapis.ExternalDataGroupName + "/v1beta1"
 
 func externalDataBuiltin(d *Driver) func(bctx rego.BuiltinContext, regorequest *ast.Term) (*ast.Term, error) {
 	return func(bctx rego.BuiltinContext, regorequest *ast.Term) (*ast.Term, error) {
