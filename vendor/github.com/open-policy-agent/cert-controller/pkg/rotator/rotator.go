@@ -103,21 +103,9 @@ func (w WebhookInfo) gvk() schema.GroupVersionKind {
 		Mutating:             {Group: "admissionregistration.k8s.io", Version: "v1", Kind: "MutatingWebhookConfiguration"},
 		CRDConversion:        {Group: "apiextensions.k8s.io", Version: "v1", Kind: "CustomResourceDefinition"},
 		APIService:           {Group: "apiregistration.k8s.io", Version: "v1", Kind: "APIService"},
-		ExternalDataProvider: {Group: getExternalDataGroupFromEnvVars(), Version: "v1beta1", Kind: "Provider"},
+		ExternalDataProvider: {Group: "externaldata.gatekeeper.sh", Version: "v1beta1", Kind: "Provider"},
 	}
 	return t2g[w.Type]
-}
-
-func getExternalDataGroupFromEnvVars() string {
-	value, exists := os.LookupEnv("EXTERNALDATA_GROUP_NAME")
-	if exists {
-		crLog.Info("external group name", "group", value)
-
-		return value
-	}
-	crLog.Info("external group name", "group", "externaldata.gatekeeper.sh")
-
-	return "externaldata.gatekeeper.sh"
 }
 
 // AddRotator adds the CertRotator and ReconcileWH to the manager.
