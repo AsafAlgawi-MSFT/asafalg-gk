@@ -212,7 +212,7 @@ github.com/go-chi/chi/v5
 # github.com/go-ini/ini v1.67.0
 ## explicit
 github.com/go-ini/ini
-# github.com/go-logr/logr v1.4.1
+# github.com/go-logr/logr v1.4.2
 ## explicit; go 1.18
 github.com/go-logr/logr
 github.com/go-logr/logr/funcr
@@ -418,9 +418,11 @@ github.com/open-policy-agent/cert-controller/pkg/rotator
 github.com/open-policy-agent/frameworks/constraint/deploy
 github.com/open-policy-agent/frameworks/constraint/pkg/apis
 github.com/open-policy-agent/frameworks/constraint/pkg/apis/constraints
+github.com/open-policy-agent/frameworks/constraint/pkg/apis/externaldata
 github.com/open-policy-agent/frameworks/constraint/pkg/apis/externaldata/unversioned
 github.com/open-policy-agent/frameworks/constraint/pkg/apis/externaldata/v1alpha1
 github.com/open-policy-agent/frameworks/constraint/pkg/apis/externaldata/v1beta1
+github.com/open-policy-agent/frameworks/constraint/pkg/apis/templates
 github.com/open-policy-agent/frameworks/constraint/pkg/apis/templates/v1
 github.com/open-policy-agent/frameworks/constraint/pkg/apis/templates/v1alpha1
 github.com/open-policy-agent/frameworks/constraint/pkg/apis/templates/v1beta1
